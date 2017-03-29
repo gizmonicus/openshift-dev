@@ -1,0 +1,95 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: 'permit authorized keys'
+      authorized_key:
+        user: 'vagrant'
+        state: 'present'
+        key: "{{ lookup('file','./files/sshkeys/id_rsa.pub') }}"
+      tags:
+        - 'config'
+
+    - name: 'remove host definition from hosts file'
+      lineinfile:
+        dest: '/etc/hosts'
+        regexp: "{{ ansible_hostname }}"
+        state: 'absent'
+      tags:
+        - 'config'
+
+- hosts: master
+  become: true
+  tasks:
+
+    - name: 'copy private ssh key to master'
+      copy:
+        src: './files/sshkeys/id_rsa'
+        dest: '/home/vagrant/.ssh/id_rsa'
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: 0600
+      tags:
+        - 'config'
+
+    - name: 'install epel'
+      yum:
+        name: 'epel-release'
+        state: 'latest'
+      tags:
+        - 'yum'
+        - 'packages'
+
+    - name: 'install required packages'
+      yum:
+        name: "{{ item }}"
+        state: 'latest'
+      with_items: 
+        - 'git'
+        - 'gcc'
+        - 'gcc-c++'
+        - 'kernel-devel'
+        - 'libffi-devel'
+        - 'libxslt-devel'
+        - 'openssl-devel'
+        - 'pyOpenSSL'
+        - 'python-pip'
+        - 'python-devel'
+        - 'vim'
+      tags:
+        - 'yum'
+        - 'packages'
+
+    - name: 'install ansible 2.2.0.0'
+      pip:
+        name: 'ansible'
+        version: '2.2.0.0'
+      tags:
+        - 'pip'
+        - 'packages'
+
+    - name: 'install setuptools'
+      pip:
+        name: 'setuptools'
+        state: 'latest'
+      tags:
+        - 'pip'
+        - 'packages'
+
+    - name: 'copy ansible hosts file to master'
+      copy:
+        src: './files/ansible-hosts'
+        dest: '/home/vagrant/ansible-hosts.example'
+        owner: 'vagrant'
+        group: 'vagrant'
+        mode: 0644
+      tags:
+        - 'config'
+
+    - name: 'clone openshift-ansible git repo'
+      git:
+        repo: 'https://github.com/openshift/openshift-ansible.git'
+        dest: '/home/vagrant/openshift-ansible'
+      become: false
+      tags:
+        - 'config'

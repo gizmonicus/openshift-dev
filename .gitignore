@@ -1,2 +1,4 @@
 .vagrant
-sshkeys
+provisioning/files/sshkeys
+*.retry
+*.swp

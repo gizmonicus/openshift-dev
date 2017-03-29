@@ -1,4 +1,6 @@
 Vagrant.configure("2") do |config|
+    
+    # Check for pre-requisite plugins
     unless Vagrant.has_plugin?("landrush")
       raise 'You must "vagrant plugin install landrush" first.'
     end
@@ -10,8 +12,6 @@ Vagrant.configure("2") do |config|
         node.vm.network "private_network", type: "dhcp"
         node.vm.box = "centos/7"
         node.vm.hostname = "node.vagrant.test"
-        node.vm.provision "shell",
-            inline: "cat /vagrant/sshkeys/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
     end
 
     config.vm.define "proxy" do |proxy|
@@ -22,8 +22,6 @@ Vagrant.configure("2") do |config|
             auto_correct: true
         proxy.vm.box = "centos/7"
         proxy.vm.hostname = "proxy.vagrant.test"
-        proxy.vm.provision "shell",
-            inline: "cat /vagrant/sshkeys/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys"
     end
 
     config.vm.define "master" do |master|
@@ -32,9 +30,12 @@ Vagrant.configure("2") do |config|
             auto_correct: true
         master.vm.box = "centos/7"
         master.vm.hostname = "master.vagrant.test"
-        master.vm.provision "shell", path: "master-provision.sh"
     end
 
+    config.vm.provision "ansible" do |ansible|
+        ansible.playbook = "provisioning/playbook.yml"
+        ansible.raw_arguments = ENV['ANSIBLE_ARGS']
+    end
 end
 
 # vim: set syntax=ruby:

@@ -1,0 +1,49 @@
+# Create an OSEv3 group that contains the masters and nodes groups
+[OSv3:children]
+masters
+nodes
+etcd
+
+# Set variables common for all OSEv3 hosts
+[OSv3:vars]
+openshift_master_metrics_public_url=https://metrics.vagrant.test/hawkular/metrics
+openshift_node_kubelet_args={'max-pods': ['50']}
+openshift_pkg_version=-1.2.0-1.git.10183.7386b49.el7
+openshift_release=v1.2
+ansible_ssh_user=vagrant
+ansible_become=true
+deployment_type=origin
+
+# In production we use LDAP, but for this testing, we should just allow all logins.
+openshift_master_identity_providers=[{'name': 'allow_all', 'login': 'true', 'challenge': 'true', 'kind': 'AllowAllPasswordIdentityProvider'}]
+
+# Paths to certificate files for the master web host.
+# We use signed certs and override the public hostname here, but for dev, we can just use the defaults.
+
+# Subdomain is the wildcard domain that gets assigned to apps by default.
+osm_default_subdomain=apps.vagrant.test
+
+# See the following article for SDN configuration details
+# https://docs.openshift.org/latest/architecture/additional_concepts/sdn.html
+osm_cluster_network_cidr=192.168.0.0/16
+os_sdn_network_plugin_name=redhat/openshift-ovs-multitenant
+
+# Set CORS origin to allow swagger api browsing
+osm_custom_cors_origins=['swagger.apps.vagrant.test']
+
+# host group for masters
+[masters]
+master.vagrant.test
+
+# host group for nodes
+[nodes]
+node.vagrant.test openshift_node_labels="{'region':'primary','zone':'west','vlan':'admin','san':'true'}"
+
+# The following nodes will not be schedulable; they are listed as nodes only so that they belong to the OVS network
+master.vagrant.test openshift_node_labels="{'region':'master','zone':'default','vlan':'admin'}" openshift_schedulable=false
+proxy.vagrant.test openshift_node_labels="{'region':'infra','zone':'west','vlan':'dmz','ipf':'apps'}"
+
+# host group for etcd
+[etcd]
+master.vagrant.test
+
