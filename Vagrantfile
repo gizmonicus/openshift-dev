@@ -8,6 +8,12 @@ Vagrant.configure("2") do |config|
     # This allows internal DNS resolution between hosts
     config.landrush.enabled = true
 
+    # Increase memory for better performance, unless of course
+    # you don't have free memory on the host :-)
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 1024
+    end
+
     config.vm.define "node" do |node|
         node.vm.network "private_network", type: "dhcp"
         node.vm.box = "centos/7"
