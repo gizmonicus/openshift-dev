@@ -1,0 +1,11 @@
+0:puppet-agent-1.9.2-1.el7.*
+0:docker-1.9.1-25.1.origin.el7.centos.*
+0:docker-forward-journald-1.9.1-25.1.origin.el7.centos.*
+0:docker-common-1.9.1-25.1.origin.el7.centos.*
+0:origin-1.2.0-1.el7.centos.*
+0:origin-clients-1.2.0-1.el7.centos.*
+0:origin-master-1.2.0-1.el7.centos.*
+0:origin-node-1.2.0-1.el7.centos.*
+0:origin-sdn-ovs-1.2.0-1.el7.centos.*
+0:tuned-profiles-origin-node-1.2.0-1.el7.centos.*
+0:ansible-2.2.0.0-4.el7.*

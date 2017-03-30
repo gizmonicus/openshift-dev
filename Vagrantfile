@@ -15,25 +15,19 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.define "node" do |node|
-        node.vm.network "private_network", type: "dhcp"
+        node.vm.network "private_network", ip: "172.28.128.20"
         node.vm.box = "centos/7"
         node.vm.hostname = "node.vagrant.test"
     end
 
     config.vm.define "proxy" do |proxy|
-        proxy.vm.network "private_network", type: "dhcp"
-        config.vm.network "forwarded_port", guest: 80, host: 8080,
-            auto_correct: true
-        config.vm.network "forwarded_port", guest: 443, host: 8443,
-            auto_correct: true
+        proxy.vm.network "private_network", ip: "172.28.128.30"
         proxy.vm.box = "centos/7"
         proxy.vm.hostname = "proxy.vagrant.test"
     end
 
     config.vm.define "master" do |master|
-        master.vm.network "private_network", type: "dhcp"
-        config.vm.network "forwarded_port", guest: 8443, host: 3448,
-            auto_correct: true
+        master.vm.network "private_network", ip: "172.28.128.10"
         master.vm.box = "centos/7"
         master.vm.hostname = "master.vagrant.test"
     end

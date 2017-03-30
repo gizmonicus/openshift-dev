@@ -1,6 +1,9 @@
 ---
+# Common configuration
 - hosts: all
   become: true
+  vars:
+    versionlock_file: "base.list"
   tasks:
     - name: 'permit authorized keys'
       authorized_key:
@@ -18,10 +21,25 @@
       tags:
         - 'config'
 
+    - name: 'install versionlock plugin'
+      yum:
+        name: 'yum-plugin-versionlock'
+        state: 'latest'
+      tags:
+        - 'yum'
+        - 'packages'
+
+    - name: "install versionlock list: {{ versionlock_file }}"
+      copy:
+        src: "./files/versionlock/{{ versionlock_file }}"
+        dest: "/etc/yum/pluginconf.d/versionlock.list"
+      tags:
+        - 'config'
+
+# Master configuration
 - hosts: master
   become: true
   tasks:
-
     - name: 'copy private ssh key to master'
       copy:
         src: './files/sshkeys/id_rsa'
@@ -78,8 +96,8 @@
 
     - name: 'copy ansible hosts file to master'
       copy:
-        src: './files/ansible-hosts'
-        dest: '/home/vagrant/ansible-hosts.example'
+        src: "./files/ansible-hosts/"
+        dest: '/home/vagrant/ansible_hosts/'
         owner: 'vagrant'
         group: 'vagrant'
         mode: 0644
