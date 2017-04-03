@@ -19,7 +19,8 @@ vagrant ssh master
 # Change into the openshift-ansible repo dir and select the right release.
 cd ~/openshift-ansible && git checkout release-1.2
 
-# Run the byo playbooks, in this case using the 1.2.0_4 example hosts file. You are free to create your own hosts file.
+# Run the byo playbooks, in this case using the 1.2.0_4 example hosts file.
+# You are free to create your own hosts file.
 ansible-playbook playbooks/byo/openshift-cluster/config.yml -i ../ansible_hosts/base_1.2.0_4.hosts
 ```
 Note that it may take more than one run to fully install the cluster components. While not ideal, this is pretty normal. If you run into an error regarding creating the router because the resource already exists, using `oc`, delete the router DC and SVC and run the installer again.
