@@ -24,3 +24,11 @@ cd ~/openshift-ansible && git checkout release-1.2
 ansible-playbook playbooks/byo/openshift-cluster/config.yml -i ../ansible_hosts/base_1.2.0_4.hosts
 ```
 Note that it may take more than one run to fully install the cluster components. While not ideal, this is pretty normal. If you run into an error regarding creating the router because the resource already exists, using `oc`, delete the router DC and SVC and run the installer again.
+
+# Changing the versionlock configuration
+If you want to experiment with different versionlock configurations, you can do so by changing the versionlock.list file that is deployed to each of the nodes. This does mean that you will need to run the ansible playbook manually. The versionlock.list files can be found in `provisioning/files/versionlock/`
+
+```
+cd provisioning
+ansible-playbook -i ../.vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory -e versionlock_file=base.list playbook.yml
+```
