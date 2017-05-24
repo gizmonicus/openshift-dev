@@ -7,7 +7,7 @@ Development Openshift environment
 * This has been tested with Vagrant 1.9.1
 
 # Bootstrapping
-Run the bootstrap.sh script to bootstrap the Openshift cluster. This will set up all the cluster hosts in such a way that the ansible installer scripts will work. You will need to run that script manually from the master. I've done it this way so you can test upgrade playbooks, install and test new versions, etc. Additionally, before running the ansible installer, you should copy the example hosts file from /home/vagrant/ansible-hosts.example to /etc/ansible/hosts.
+Run the bootstrap.sh script to bootstrap the Openshift cluster. This will set up all the cluster hosts in such a way that the ansible installer scripts will work. You will need to run that script manually from the master. I've done it this way so you can test upgrade playbooks, install and test new versions, etc.
 
 # Initial installation
 When you run vagrant up (or use the bootstrap.sh script), you will get three clean VMs with all the pre-requisites installed; Openshift is not installed by default. This means you get to install it yourself (yay!). Do the following to get Openshift installed:
