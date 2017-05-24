@@ -28,6 +28,7 @@ osm_default_subdomain=apps.vagrant.test
 # See the following article for SDN configuration details
 # https://docs.openshift.org/latest/architecture/additional_concepts/sdn.html
 osm_cluster_network_cidr=192.168.0.0/16
+osm_host_subnet_length=9
 os_sdn_network_plugin_name=redhat/openshift-ovs-multitenant
 
 # Set CORS origin to allow swagger api browsing

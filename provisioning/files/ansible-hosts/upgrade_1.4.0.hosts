@@ -8,8 +8,8 @@ etcd
 [OSv3:vars]
 openshift_master_metrics_public_url=https://metrics.vagrant.test/hawkular/metrics
 openshift_node_kubelet_args={'max-pods': ['50']}
-openshift_pkg_version=-1.2.0-2.el7
-openshift_release=v1.2
+openshift_pkg_version=-1.4.1-1.el7
+openshift_release=v1.4
 ansible_ssh_user=vagrant
 ansible_become=true
 deployment_type=origin

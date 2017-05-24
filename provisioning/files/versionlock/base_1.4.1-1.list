@@ -1,0 +1,8 @@
+0:puppet-agent-1.9.2-1.el7.*
+0:origin-1.4.1-1.el7.*
+0:origin-clients-1.4.1-1.el7.*
+0:origin-master-1.4.1-1.el7.*
+0:origin-node-1.4.1-1.el7.*
+0:origin-sdn-ovs-1.4.1-1.el7.*
+0:tuned-profiles-origin-node-1.4.1-1.el7.*
+0:ansible-2.2.0.0-4.el7.*
